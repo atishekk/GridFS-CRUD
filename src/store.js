@@ -2,6 +2,8 @@ const {GridFsStorage} = require("multer-gridfs-storage");
 const {Employee} = require("./models");
 const path = require('path');
 
+//Create the GridFs middleware storage-engine for multer
+//For each file checks if the filename is valid if so it is uploaded
 const store = new GridFsStorage({
     url: process.env.DB,
     file: (_ , file) => {

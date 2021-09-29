@@ -8,6 +8,7 @@ const { Admin, Employee } = require("../models")
 module.exports = (upload) => {
     const mainRouter = express.Router();
     const url = process.env.DB;
+    //create a GridFS Bucket to store the files
     const connect = mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
     let GridFs;
     connect.once('open', () => {
@@ -16,10 +17,17 @@ module.exports = (upload) => {
         });
     });
 
+    // Send the index.html file
     mainRouter.get('/', (_, res) =>{
         res.sendFile(__dirname + "/views/index.html")
     })
 
+    // NOTE: Admin Operations are not implemented in the UI
+    // body format
+    // json: {
+    // _id: <Admin ID>,
+    // name: <Admin's name
+    // }
     //create an Admin
     mainRouter.post("/admin", async (req, res) => {
         try{
@@ -32,7 +40,7 @@ module.exports = (upload) => {
         }
     });
 
-    //get all admins
+    //Get all admins
     mainRouter.get("/admin", async (_, res) => {
         try {
             const admins = await Admin.find();
@@ -42,7 +50,7 @@ module.exports = (upload) => {
         }
     });
 
-    //Update admins
+    //Update admins with object passed in
     mainRouter.put("/admin", async(req, res) => {
         try {
             const body = req.body;
@@ -87,6 +95,12 @@ module.exports = (upload) => {
         }
     });
 
+    // Employee Operations
+    // body format
+    // json: {
+    // _id: <Employee ID>,
+    // name: <Employee's name
+    // }
     //create an employee
     mainRouter.post("/employee", async (req, res) => {
         try{
@@ -98,6 +112,7 @@ module.exports = (upload) => {
     });
 
     //get all employees
+    //List all the employee currently in the system
     mainRouter.get("/employee", async (_, res) => {
         try {
             const employees = await Employee.find();
@@ -179,6 +194,7 @@ module.exports = (upload) => {
         }
     });
 
+    // Get a single employee
     mainRouter.get("/employee/:id", async(req, res) => {
         try {
             const employee = await Employee.findById(req.params.id);
@@ -192,12 +208,15 @@ module.exports = (upload) => {
         }
     });
 
+    //File Methods
+    //Upload files to the server, Currently allows max 5 at a time can be increased to more
     mainRouter.post("/upload", upload.array('file', 5), (req, res) => {
         res.status(200).json({
             success: true,
         });
     });
 
+    //Get a file based on it filename, Retrieves the file and stream it to the response object
     mainRouter.get("/file/:filename", (req, res) => {
         GridFs.find({filename: req.params.filename}).toArray((err, files) => {
             if (!files[0] || files.length === 0) {
