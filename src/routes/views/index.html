@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Home </title>
+    </head>
+    <body>
+        <h2> You are an Admin </h2>
+        <ul>
+            <li> <a href="/employee"> Employee </a> </li>
+        </ul>
+        <fieldset>
+            <h3> Create a new employee </h3>
+            <form action="/employee" method='post'>
+                _id: <input type="text" id="_id" name="_id"/> <br/><br/>
+                name: <input type="text" id="name" name="name"><br/><br/>
+                <button type="submit"> Submit </button>
+            </form>
+        </fieldset>
+        <fieldset>
+            <h3> Send Bulk files (max: 5)</h3>
+            <form action="/upload" method='post' enctype="multipart/form-data">
+                <input type="file" id="file" name="file" multiple /><br/><br/>
+                <button type="submit"> Submit </button>
+            </form>
+        </fieldset>
+    </body>
+</html>
