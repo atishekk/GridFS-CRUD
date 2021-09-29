@@ -1,5 +1,9 @@
 # GridFS CRUD
 
+Install the dependencies
+    
+    npm install
+
 To start the server:
     
     npm start
