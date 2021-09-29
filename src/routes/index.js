@@ -115,7 +115,7 @@ module.exports = (upload) => {
                   </script>
             <script>
 
-                function deletereq(u) {
+                function deletefile(u) {
                     $.ajax({
                         url: u,
                         type: 'DELETE',
@@ -134,7 +134,6 @@ module.exports = (upload) => {
                         data: {_id: id},
                         success: function (response) {
                             location.reload();
-                            alert("Employee deleted")
                         },
                         error: function(a, b) {
                             alert('Could not delete the employee')
